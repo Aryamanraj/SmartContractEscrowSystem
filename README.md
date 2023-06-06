@@ -1,70 +1,195 @@
-# Getting Started with Create React App
+# Decentralized Escrow System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The Decentralized Escrow System is a smart contract-based application that facilitates secure transactions between buyers, sellers, and arbitrators. It ensures trust and transparency by leveraging blockchain technology.
 
-## Available Scripts
+## Sections
 
-In the project directory, you can run:
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Smart Contracts](#smart-contracts)
+- [Functions](#functions)
+- [Contributing](#contributing)
+- [License](#license)
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Create transactions with seller, buyer, and arbitrator details.
+- Add digital signatures to verify the authenticity of transaction participants.
+- Lock transactions to initiate the dispute resolution process.
+- Release locked transactions after dispute resolution or completion.
+- Initiate disputes with relevant details for resolution.
+- Get the status of a transaction.
+- Resolve disputes as an arbitrator with true or false decision.
 
-### `npm test`
+## Prerequisites
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+To run the Decentralized Escrow System, make sure you have the following prerequisites installed on your machine:
 
-### `npm run build`
+- Node.js
+- React.js
+- Ethereum client or provider (e.g., Ganache, MetaMask)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Installation
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Clone the repository:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```console
+git clone https://github.com/Aryamanraj/SmartContractEscrowSystem.git
+```
+2. Navigate to the project directory:
+```console
+cd SmartContractEscrowSystem
+```
+3. Install the dependencies:
+```console
+npm install
+```
+4. Start the development server:
+```console
+npm start
+```
 
-### `npm run eject`
+5. Open your web browser and visit http://localhost:3000 to access the application.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Usage
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **Buyer**: Use the BuyerLogin component to create transactions, add signatures, lock transactions, release transactions, and initiate disputes.
+- **Seller**: Use the SellerLogin component to add signatures and get the status of transactions.
+- **Arbitrator**: Use the ArbitratorLogin component to add signatures, get the status of transactions, and resolve disputes.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Smart Contracts
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+The smart contracts used in this application are included in the `contracts` directory. They are written in Solidity and deployed on the Ethereum blockchain.
 
-## Learn More
+- `EscrowContract.sol`: Main contract that handles the escrow functionality, including creating transactions, adding signatures, locking transactions, releasing transactions, initiating disputes, and resolving disputes.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Functions
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 1. createTransaction
 
-### Code Splitting
+Creates a new transaction in the escrow system.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+**Inputs:**
+- `transactionId` (string): Unique identifier for the transaction.
+- `seller` (address): Ethereum address of the seller.
+- `arbitrator` (address): Ethereum address of the arbitrator.
+- `amount` (uint256): Amount of funds to be held in escrow for the transaction.
 
-### Analyzing the Bundle Size
+**Usage:**
+```javascript
+await createTransaction(transactionId, seller, arbitrator, amount);
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+**User Role:**
+- `Buyer`
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### 2. addSign
+Allows the seller to add their signature to the transaction.
 
-### Advanced Configuration
+**Inputs:**
+- `transactionId` (string): Unique identifier of the transaction.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+**Usage:**
 
-### Deployment
+```javascript
+await addSign(transactionId);
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+**User Role:**
+- `Buyer`
+- `Seller`
+- `Arbitrator`
 
-### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### 3. getTransactionStatus
+Retrieves the status of a transaction.
+
+**Inputs:**
+- `transactionId` (string): Unique identifier of the transaction.
+
+**Usage:**
+```javascript
+await getTransactionStatus(transactionId);
+```
+
+**User Role:**
+- `Buyer`
+- `Seller`
+- `Arbitrator`
+
+
+### 4. lockTnx
+Locks the transaction for a specified duration.
+
+**Inputs:**
+- `transactionId` (string): Unique identifier of the transaction.
+- `duration` (uint256): Duration in seconds for which the transaction should be locked.
+
+**Usage:**
+```javascript
+await lockTnx(transactionId, duration);
+```
+
+**User Role:**
+- `Buyer`
+
+### 5. releaseTnx
+Releases the funds held in escrow for a transaction.
+
+**Inputs:**
+- `transactionId` (string): Unique identifier of the transaction.
+
+**Usage:**
+```javascript
+await releaseTnx(transactionId);
+```
+**User Role:**
+- `Buyer`
+
+### 6. initiateDispute
+Initiates a dispute for a transaction.
+
+**Inputs:**
+- `transactionId` (string): Unique identifier of the transaction.
+- `disputeReason` (string): Reason for initiating the dispute.
+
+**Usage:**
+```javascript
+await initiateDispute(transactionId, disputeReason);
+```
+**User Role:**
+- `Buyer`
+
+### 7. resolveDispute
+Resolves a dispute for a transaction.
+
+**Inputs:**
+- `transactionId` (string): Unique identifier of the transaction.
+- `resolution` (bool): Resolution of the dispute (true or false).
+
+**Usage:**
+```javascript
+await resolveDispute(transactionId, resolution);
+```
+
+**User Role:**
+- `Arbitrator`
+
+
+## Contributing
+
+Contributions are welcome! If you'd like to contribute to the Decentralized Escrow System, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Commit your changes and push the branch.
+4. Submit a pull request explaining your changes.
+
+## License
+
+The Decentralized Escrow System is open-source software licensed under the [MIT license](LICENSE).
+
